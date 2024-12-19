@@ -12,60 +12,53 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bitter:ital,wght@0,100..900;1,100..900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Hachi+Maru+Pop&family=Joti+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Yuji+Mai&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="utils.css">
 </head>
+<style>
+  .delete
+  {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+  }
+  .delete button
+  {
+    border: 2px solid black;
+    all: unset;
+  }
+  .delete button i
+  {
+    font-size: 2rem;
+    color: burlywood;
+    cursor: pointer;
+  }
+</style>
 <body>
-   <nav class="hidden">   
+   <nav>
+    
     <div class="left">
       <img  src="../assets/Prahtam__1_-removebg-preview.png" alt="">
       <ul class="list">
         <li class="cross"><i onclick="removeMenu()" class="fa-solid fa-xmark"></i></li>
         <li class="list-item "><a href="index.html">Home</a></li>
         <li class="list-item "><a href="shop.html">Shop</a></li>
-        <li class="list-item"><a href="wishlist.html">Wishlist</a></li>
-        <li class="list-item active"><a href="bag.html">View</a></li>
+        <li class="list-item active"><a href="wishlist.html">Wishlist</a></li>
+        <li class="list-item"><a href="bag.html">View</a></li>
       </ul>
-     
+   
     </div>
     <!-- <i onclick="menuBar()" class="fa-solid fa-bars"></i>    -->
    </nav>
-  <section class="prodetails section-p1 hidden">
-    <div class="single-pro-image">
-        <img class="mainImg" src="../products/f1.jpg" alt="">
-        <div class="small-imges-group">
-        <div class="small-imges">
-            <img class="sm-img" src="../products/f3.jpg" width="100%" alt="">
-        </div>
-        <div class="small-imges">
-            <img class="sm-img" src="../products/f4.jpg" width="100%" alt="">
-        </div>
-        <div class="small-imges">
-            <img class="sm-img" src="../products/f5.jpg" width="100%" alt="">
-        </div>
+   <section class="wishlist">
+    <h1>My Wishlist</h1>
+    <div class="delete">
+    <button><i onclick="wishRemove()" class="fa-solid fa-trash"></i></button>
     </div>
+    <div class="wish-items"> 
     </div>
-    <div class="single-pro-detail ">
-        <h3>Home/T-shirt</h3>
-        <h1>Men's fashion T-shirt</h1>
-        <h2>₹1800</h2>
-        <select name="" id="">
-
-            <option >S</option>
-            <option >M</option>
-            <option >L</option>
-            <option >XL</option>
-            <option >XXL</option>
-        </select>
-        <input type="number" value="1">
-        <button >Checkout</button>
-        <h3 class="prod-des">Product Details</h3>
-        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi tempore optio animi beatae nulla iure, voluptatum accusantium saepe voluptatem laboriosam necessitatibus, excepturi eaque veniam dolor repellendus unde reprehenderit dicta nostrum maxime eum nihil! Ipsa, a. Et deserunt iusto laudantium accusantium itaque qui.</span>
-    </div>
-  </section> 
-  
+   </section>
 <footer class="mainfooter hidden">
   <div class="footer section-p1">
   <div class="col pehla">
@@ -117,28 +110,32 @@
   </div>
 </footer> 
 
-
 <script>
-  const bigImg=document.querySelector(".mainImg");
-  const smallImg=document.querySelectorAll(".sm-img");
-  let tempImg;
-  console.log(bigImg);
-  console.log(smallImg);
 
-  smallImg.forEach((image,index)=>{
-        image.addEventListener('click',()=>{
-          bigImg.classList.add('fade-out');
-          tempImg= bigImg.src;
-          setTimeout(()=>{
-            bigImg.src=image.src; 
-            image.src=tempImg;
-            bigImg.classList.remove('fade-out');
+  const wishlist=document.querySelector(".wish-items");
+function wishRemove()
+{
+  wishlist.innerHTML="";
+   localStorage.clear();
+}
+const wishItemString=JSON.parse(localStorage.getItem('wishArray'));
 
-          },200);
-        })
-  })
-</script>
-   <script src="../index.js"></script>
+if (wishItemString!== null) {
+  wishItemString.forEach(productHTML => {
+      // Create a temporary div to hold the product HTML
+      const tempDiv = document.createElement('div');
+      tempDiv.className='item-product';
+      console.log(tempDiv.className);
+      tempDiv.innerHTML = productHTML; // Set the innerHTML to the product HTML
+      // Append the first child (the product div) to the wishlist container
+      wishlist.appendChild(tempDiv.firstChild);
+  });
+} else {
+  wishlist.innerHTML = '<p>First Add Items into the Wishlist</p>';
+}
+</script>   
+   <script src="./index.js"></script>
+
 </body>
 </html>
 
